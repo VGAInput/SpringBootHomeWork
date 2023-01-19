@@ -18,6 +18,11 @@ public class IngredientService {
         return ingredient;
     }
 
+    public Ingredient updateIngredient(int id,Ingredient ingredient){
+        ingredients.put(id,ingredient);
+        return ingredient;
+    }
+
     public Ingredient getIngredientById(int id) {
         return ingredients.get(id);
     }

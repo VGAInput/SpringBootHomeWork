@@ -5,10 +5,16 @@ import java.util.ArrayList;
 public class Recipe {
     private String name;
     private int cookingTimeMinutes;
+
+    public int getId() {
+        return id;
+    }
+
+    private int id;
     private ArrayList<Ingredient> ingredients;
     private ArrayList<String> cookingSteps;
 
-    public Recipe(String name, int cookingTimeMinutes, ArrayList<Ingredient> ingredients, ArrayList<String> cookingSteps) {
+    public Recipe(int id,String name, int cookingTimeMinutes, ArrayList<Ingredient> ingredients, ArrayList<String> cookingSteps) {
 
         if (name == null || cookingTimeMinutes == 0 || ingredients.isEmpty() || cookingSteps.isEmpty()) {
             throw new IllegalArgumentException("Параметры рецепта не могут быть пустыми!");

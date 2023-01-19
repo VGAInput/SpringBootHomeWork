@@ -17,8 +17,14 @@ public class RecipeService {
         return recipe;
     }
 
-    public Recipe getRecipeByID(int id) {
+    public Recipe getRecipeById(int id) {
         return recipes.get(id);
     }
+
+    public Recipe updateRecipe(int id, Recipe recipe){
+        recipes.put(id,recipe);
+        return recipe;
+    }
+
 
 }

@@ -3,9 +3,11 @@ package com.homework.springboothomework.model;
 public class Ingredient {
     private String name;
     private int amount;
+
+    private int id;
     private String unitOfMeasure;
 
-    public Ingredient(String name, int amount, String unitOfMeasure) {
+    public Ingredient(String name, int amount, String unitOfMeasure, int id) {
 
         if (name == null || amount == 0 || unitOfMeasure.isEmpty()) {
             throw new IllegalArgumentException("Параметры ингредиента не могут быть пустыми!");
@@ -16,6 +18,7 @@ public class Ingredient {
         this.unitOfMeasure = unitOfMeasure;
     }
 
+
     @Override
     public String toString() {
         return "Ingredient{" +
@@ -23,6 +26,10 @@ public class Ingredient {
                 ", amount=" + amount +
                 ", unitOfMeasure='" + unitOfMeasure + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
