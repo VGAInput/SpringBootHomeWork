@@ -4,6 +4,7 @@ import com.homework.springboothomework.model.Ingredient;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -26,6 +27,15 @@ public class IngredientService {
     public Ingredient getIngredientById(int id) {
         return ingredients.get(id);
     }
+
+    public List<Ingredient> getAllIngredients() {
+        return (List<Ingredient>) ingredients;
+    }
+
+    public void  deleteIngredientById(int id){
+        ingredients.remove(id);
+    }
+
 
 
 }

@@ -1,9 +1,11 @@
 package com.homework.springboothomework.services;
 
+import com.homework.springboothomework.model.Ingredient;
 import com.homework.springboothomework.model.Recipe;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -21,9 +23,18 @@ public class RecipeService {
         return recipes.get(id);
     }
 
+    public List<Recipe> getAllRecipes() {
+        return (List<Recipe>) recipes;
+    }
+
+
     public Recipe updateRecipe(int id, Recipe recipe){
         recipes.put(id,recipe);
         return recipe;
+    }
+
+    public void deleteRecipeById(int id){
+        recipes.remove(id);
     }
 
 
