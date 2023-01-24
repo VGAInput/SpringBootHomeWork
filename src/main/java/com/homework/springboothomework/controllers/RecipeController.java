@@ -3,6 +3,11 @@ package com.homework.springboothomework.controllers;
 import com.homework.springboothomework.model.Ingredient;
 import com.homework.springboothomework.model.Recipe;
 import com.homework.springboothomework.services.RecipeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/recipe")
+@Tag(name = "Контроллёр рецептов",description = "CRUD-операции для работы с рецептами. ")
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -24,18 +30,31 @@ public class RecipeController {
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Добавление нового рецепта.")
+
     public ResponseEntity<String> addNewRecipe(@RequestBody Recipe newRecipe) {
         return ResponseEntity.ok(" Ingredient ID: " + recipeService.createRecipe(newRecipe));
     }
 
 
     @PutMapping("/update/{id}")
+    @Operation(description = "Редактирование рецепта по ID.")
+    @Parameters(value =  {
+            @Parameter(name = "id",example = "1")
+    })
+
+
     public Recipe putRecipe(@RequestBody Recipe recipe) {
         Recipe updateRecipe = recipeService.updateRecipe(recipe.getId(), recipe);
         return recipe;
     }
 
     @GetMapping("/get/{id}")
+    @Operation(description = "Получение рецепта по ID.")
+    @Parameters(value =  {
+            @Parameter(name = "id",example = "1")
+    })
+
     public ResponseEntity<Recipe> getRecipe(@RequestParam int id) {
         Recipe result = recipeService.getRecipeById(id);
         if (result == null) {
@@ -45,6 +64,8 @@ public class RecipeController {
     }
 
     @GetMapping("/get/all")
+    @Operation(description = "Получение всех рецептов.")
+
     public ResponseEntity<List<Recipe>> getAllRecipes() {
         List<Recipe> recipes = recipeService.getAllRecipes();
         if (recipes.isEmpty()) {
@@ -55,6 +76,11 @@ public class RecipeController {
 
 
     @DeleteMapping("/delete/{id}")
+    @Operation(description = "Удаление рецепта по ID.")
+    @Parameters(value =  {
+            @Parameter(name = "id",example = "1")
+    })
+
     public ResponseEntity<String> deleterecipe(@PathVariable int id) {
         recipeService.deleteRecipeById(id);
         return ResponseEntity.ok("Recipe №" + id + " has been removed");
