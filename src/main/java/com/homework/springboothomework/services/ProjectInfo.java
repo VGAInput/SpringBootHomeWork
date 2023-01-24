@@ -1,4 +1,4 @@
-package com.homework.springboothomework.controllers;
+package com.homework.springboothomework.services;
 
 import org.springframework.stereotype.Service;
 
@@ -6,23 +6,18 @@ import java.time.LocalDate;
 
 @Service
 public class ProjectInfo {
-
     private String studentName;
     private String projectName;
     private LocalDate projectCreationDate;
     private String projectDescription;
-
     public ProjectInfo(){
-
     }
-
     public ProjectInfo(String studentName, String projectName, LocalDate projectCreationDate, String projectDescription) {
         this.studentName = studentName;
         this.projectName = projectName;
         this.projectCreationDate = projectCreationDate;
         this.projectDescription = projectDescription;
     }
-
     public LocalDate getProjectCreationDate() {
         return projectCreationDate;
     }
