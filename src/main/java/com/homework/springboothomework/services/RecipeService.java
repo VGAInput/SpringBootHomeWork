@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.homework.springboothomework.model.Ingredient;
 import com.homework.springboothomework.model.Recipe;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,17 +18,20 @@ import java.util.TreeMap;
 @Service
 public class RecipeService {
 
-    private final RecipesFileService fileService;
+
+    @Autowired
+    @Qualifier("ingredientFileService")
+    private FileService recipeFileService;
     private int generateId = 1;
     private Map<Integer, Recipe> recipes = new HashMap<>();
 
     @PostConstruct
     private void init(){
-        fileService.readRecipeFromFile();
+        recipeFileService.readFromFile();
     }
 
-    public RecipeService(RecipesFileService fileService) {
-        this.fileService = fileService;
+    public RecipeService(FileService recipeFileService) {
+        this.recipeFileService = recipeFileService;
     }
 
     public Recipe createRecipe(Recipe recipe) {
@@ -56,7 +61,7 @@ public class RecipeService {
     public void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(recipes);
-            fileService.saveRecipesToFile(json);
+            recipeFileService.saveToFile(json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException();
         }
@@ -64,7 +69,7 @@ public class RecipeService {
 
     public void readFromFile() {
         try {
-            String json = fileService.readRecipeFromFile();
+            String json = recipeFileService.readFromFile();
             recipes = new ObjectMapper().readValue(json, new TypeReference<TreeMap<Integer, Recipe>>() {
             });
         } catch (JsonProcessingException e) {

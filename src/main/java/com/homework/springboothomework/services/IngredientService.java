@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.homework.springboothomework.model.Ingredient;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -15,16 +17,19 @@ import java.util.TreeMap;
 @Service
 public class IngredientService {
 
-    final private IngredientFileService fileService;
+    @Autowired
+    @Qualifier("ingredientFileService")
+    private FileService ingredientFileService;
     private int generateId = 1;
     private Map<Integer, Ingredient> ingredients = new HashMap<>();
+
     @PostConstruct
-    private void init(){
-        fileService.readIngredientFromFile();
+    private void init() {
+        ingredientFileService.readFromFile();
     }
 
-    public IngredientService(IngredientFileService fileService) {
-        this.fileService = fileService;
+    public IngredientService(FileService ingredientFileService) {
+        this.ingredientFileService = ingredientFileService;
     }
 
     public Ingredient createIngredient(Ingredient ingredient) {
@@ -53,7 +58,7 @@ public class IngredientService {
     public void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(ingredients);
-            fileService.saveIngredientToFile(json);
+            ingredientFileService.saveToFile(json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException();
         }
@@ -61,7 +66,7 @@ public class IngredientService {
 
     public void readFromFile() {
         try {
-            String json = fileService.readIngredientFromFile();
+            String json = ingredientFileService.readFromFile();
             ingredients = new ObjectMapper().readValue(json, new TypeReference<TreeMap<Integer, Ingredient>>() {
             });
         } catch (JsonProcessingException e) {
