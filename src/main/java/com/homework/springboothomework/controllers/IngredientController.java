@@ -10,10 +10,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -42,6 +47,30 @@ public class IngredientController {
         Ingredient updateIngredient = ingredientService.updateIngredient(ingredient.getId(), ingredient);
         return ingredient;
     }
+
+    @GetMapping("/download/all")
+    public ResponseEntity<InputStreamResource> downloadRecipes() throws FileNotFoundException {
+        File file = ingredientService.getData();
+        if (file.exists()) {
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .contentLength(file.length())
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Ingredients.json\"")
+                    .body(resource);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+    @GetMapping("/update/all")
+    public void updateRecipeList() throws FileNotFoundException{
+        ingredientService.cleanFile();
+        downloadRecipes();
+    }
+
+
+
+
 
     @GetMapping("/get/all")
     @Operation(description = "Получение всех ингредиентов.")

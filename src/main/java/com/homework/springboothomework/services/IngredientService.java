@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,10 @@ public class IngredientService {
             throw new RuntimeException();
         }
     }
+    public File getData(){
+        return ingredientFileService.getData();
+    }
+
 
     public void readFromFile() {
         try {
@@ -73,6 +78,10 @@ public class IngredientService {
             throw new RuntimeException();
         }
     }
+    public void cleanFile(){
+        ingredientFileService.cleanFile();
+    }
+
 
 
 }

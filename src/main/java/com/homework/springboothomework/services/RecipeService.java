@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class RecipeService {
 
 
     @Autowired
-    @Qualifier("ingredientFileService")
+    @Qualifier("recipeFileService")
     private FileService recipeFileService;
     private int generateId = 1;
     private Map<Integer, Recipe> recipes = new HashMap<>();
@@ -67,6 +68,10 @@ public class RecipeService {
         }
     }
 
+    public File getData(){
+        return recipeFileService.getData();
+    }
+
     public void readFromFile() {
         try {
             String json = recipeFileService.readFromFile();
@@ -75,6 +80,10 @@ public class RecipeService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException();
         }
+    }
+
+    public void cleanFile(){
+        recipeFileService.cleanFile();
     }
 
 

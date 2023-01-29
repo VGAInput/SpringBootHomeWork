@@ -4,6 +4,8 @@ package com.homework.springboothomework.services;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
+
 @Configuration
 public class SpringConfig {
 
@@ -24,6 +26,11 @@ public class SpringConfig {
             public boolean cleanFile() {
                 return false;
             }
+
+            @Override
+            public File getData() {
+                return null;
+            }
         };
     }
 
@@ -43,6 +50,11 @@ public class SpringConfig {
             @Override
             public boolean cleanFile() {
                 return false;
+            }
+
+            @Override
+            public File getData() {
+                return null;
             }
         };
     }
